@@ -42,6 +42,7 @@ signal2.add(function(a:String, b:Float){
 	trace("String" + a);
 	trace("float" + (b*2));
 });
+signal2.dispatch("hello", 22.3);
 }}}
 
 ===Type Inference===
@@ -51,6 +52,7 @@ signal2.add(function(a:String, b:Float){
 	trace("String" + a);
 	trace("float" + (b*2));
 });
+signal2.dispatch("hello", 22.3);
 }}}
 
 
