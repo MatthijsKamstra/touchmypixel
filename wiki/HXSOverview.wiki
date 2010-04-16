@@ -1,0 +1,88 @@
+#labels Featured
+=HXS - Signals Library=
+
+
+==Overview==
+
+HXS is based on AS3Signals and aims to provide a lightweight signals & slots library for crossplatform haxe development. The syntax aims to be concise and familiar to flash & web (ecma) programmers. 
+
+
+
+==Examples==
+Examples can be found in the Main.hx file in the 'src' of the HXS project. Or read below.
+
+==A simple example==
+
+Like AS3Signals HXS is doesnt use event objects, but directly calls listener functions. You have the option of calling listeners with a number of arguments: 1,2,3,4 or 5 (currently). There are different SignalX classes for each number of arguments. 
+
+==No Arguemnts==
+
+The Simplest setup simply allows a number of listeners to be added to a signal, without passing any information to the listener.
+
+{{{
+var s = new Signal();
+s.add(function() {
+	trace("a simple listener");
+});
+s.add(function() {
+	trace("another simple listener on the same signal");
+});
+s.dispatch();
+}}}
+
+
+==With Arguments== 
+
+SignalX classes allow you to pass data to the listeners. HXS is fully typed, but you can use type inference for cleaner, faster coding. 
+
+===Fully Typed===
+{{{
+var signal2:Signal2<String, Float> = new Signal2();
+signal2.add(function(a:String, b:Float){
+	trace("String" + a);
+	trace("float" + (b*2));
+});
+}}}
+
+===Type Inference===
+{{{
+var signal2 = new Signal2();
+signal2.add(function(a:String, b:Float){
+	trace("String" + a);
+	trace("float" + (b*2));
+});
+}}}
+
+
+
+==Event Information==
+Event information can be accessed via the SignalInfo object. This allows you to accesst the:
+*current signal
+*current slot
+
+With the current signal you can:
+*access the caller object (object holding the signal - eg. a movieclip) 
+This requires that you have passed it to the Signal on instantiation (eg new Signal(this))
+*mute/unmute the signal
+*mute/unmute slots
+
+==Integration with Native Flash events==
+It is very simple to integrate with flash AVM2 native events. 
+
+{{{
+var onClick = new AS3Signal(this, MouseEvent.CLICK);
+
+onClick.add(function(e:MouseEvent){
+	
+	trace("clicked");
+});	
+}}}
+
+This example adds a listener to 'this' for the MouseEvent.CLICK. An AS3Signal allows for the same features (muting, info etc, as the normal signals)
+
+
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
