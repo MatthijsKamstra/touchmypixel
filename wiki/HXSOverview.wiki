@@ -57,14 +57,14 @@ signal2.add(function(a:String, b:Float){
 
 ==Event Information==
 Event information (when inside a listener function) can be accessed via the SignalInfo object. This allows you to access the:
-* current signal
-* current slot
+  * current signal
+  * current slot
 
 With the current signal you can:
-* access the caller object (object holding the signal - eg. a movieclip) 
+  * access the caller object (object holding the signal - eg. a movieclip) 
 This requires that you have passed it to the Signal on instantiation (eg new Signal(this))
-* mute/unmute the signal
-* mute/unmute slots
+  * mute/unmute the signal
+  * mute/unmute slots
 
 ==Integration with Native Flash events==
 It is very simple to integrate with flash AVM2 native events. 
@@ -79,4 +79,3 @@ onClick.add(function(e:MouseEvent){
 }}}
 
 This example adds a listener to 'this' for the MouseEvent.CLICK. An AS3Signal allows for the same features (muting, info etc, as the normal signals)
-
