@@ -98,9 +98,7 @@ This example adds a listener to 'this' for the MouseEvent.CLICK. An AS3Signal al
 Shortcuts use the haxe 'using' functionality to inject signals onto certain classes. For example, onEnterFrame can be added to all MovieClips - this allows us to use events similar to ActionScript1, but with the benefits of signals:
 
 {{{
-var box = new Box(0xff0000);
-box.x = 200;
-addChild(box);
+var box = new Sprite();
 	
 box.onClick().add(function(e) {
 	trace("onClick");
