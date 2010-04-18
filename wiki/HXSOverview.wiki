@@ -13,7 +13,7 @@ Examples can be found in the Main.hx file in the 'src' of the HXS project. Or re
 
 ==A simple example==
 
-Like AS3Signals HXS is doesnt use event objects, but directly calls listener functions. You have the option of calling listeners with a number of arguments: 1,2,3,4 or 5 (currently). There are different SignalX classes for each number of arguments. 
+Like AS3Signals HXS is setup to directly call listener functions. You have the option of calling listeners with a number of arguments: 1,2,3,4 or 5 (currently). There are different SignalX classes for each number of arguments. 
 
 ==No Arguemnts==
 
@@ -58,22 +58,33 @@ signal2.dispatch("hello", 22.3);
 
 
 ==Event Information==
-Event information (when inside a listener function) can be accessed via the SignalInfo object. This allows you to access the:
-  * current signal
-  * current slot
+So far we have been adding listeners to our signal via the 'add' method. If you want to get information about he signal/slot that is currently dispatching then you can use the 'addAdvanced' method. This sends an 'info' object with the dispatch.
 
-With the current signal you can:
+This can be useful to:
   * access the caller object (object holding the signal - eg. a movieclip) 
 This requires that you have passed it to the Signal on instantiation (eg new Signal(this))
   * mute/unmute the signal
   * mute/unmute slots
+
+{{{
+var s = new Signal();
+s.addAdvanced(function(info:Info) {
+	trace("a simple listener with info");
+	info.signal.mute();
+});
+s.dispatch();
+s.dispatch();
+s.dispatch();
+}}}
+
+This example would only call the listener once, as in the first call it mutes the signal.
+
 
 ==Integration with Native Flash events==
 It is very simple to integrate with flash AVM2 native events. 
 
 {{{
 var onClick = new AS3Signal(this, MouseEvent.CLICK);
-
 onClick.add(function(e:MouseEvent){
 	
 	trace("clicked");
@@ -81,3 +92,28 @@ onClick.add(function(e:MouseEvent){
 }}}
 
 This example adds a listener to 'this' for the MouseEvent.CLICK. An AS3Signal allows for the same features (muting, info etc, as the normal signals)
+
+==Shortcuts==
+
+Shortcuts use the haxe 'using' functionality to inject signals onto certain classes. For example, onEnterFrame can be added to all MovieClips - this allows us to use events similar to ActionScript1, but with the benefits of signals:
+
+{{{
+var box = new Box(0xff0000);
+box.x = 200;
+addChild(box);
+	
+box.onClick().add(function(e) {
+	trace("onClick");
+});
+		
+box.onRollOver().add(function(e) {
+	trace("onRollOver");
+});
+
+// it allows for onReleaseOutside to be implemented too!
+box.onReleaseOutside().add(function(e) {
+	trace("** onReleaseOutside ** (HELL YEAH!)");
+});
+}}}
+
+Currently there a few shortcuts for commonly used AS3 events, such as onEnterFrame, click, etc. 
