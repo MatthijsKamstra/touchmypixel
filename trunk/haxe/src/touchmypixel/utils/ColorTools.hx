@@ -18,6 +18,12 @@ class ColorTools
 		
 		clip.transform.colorTransform = ct;
 	}
+		
+	public static function removeTint(clip:DisplayObject)
+	{
+		var ct = new ColorTransform();
+		clip.transform.colorTransform = ct;
+	}
 	
 	public static function interpolateColor(fromColor:Int, toColor:Int, progress:Int):Int
 	{
