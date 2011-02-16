@@ -26,7 +26,7 @@ class GlobalTimer
 		timers[id] = null;
 	}
 	
-	public static function setTimeout(func:Dynamic, milliseconds:Int, rest:Array<Dynamic>):Int
+	public static function setTimeout(func:Dynamic, milliseconds:Int, rest:Array<Dynamic> = null):Int
 	{
 		var timer:Timer = new Timer(milliseconds);
 		timers.push(timer);
