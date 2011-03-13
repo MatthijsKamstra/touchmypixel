@@ -7,7 +7,7 @@ class GlobalTimer
 {
 	public static var timers:Array<Timer> = new Array();
 	
-	public static function setInterval(func:Dynamic, milliseconds:Int, rest:Array<Dynamic>):Int
+	public static function setInterval(func:Dynamic, milliseconds:Int, ?rest:Array<Dynamic> = null):Int
 	{
 		var timer:Timer = new Timer(milliseconds);
 		timers.push(timer);
@@ -26,7 +26,7 @@ class GlobalTimer
 		timers[id] = null;
 	}
 	
-	public static function setTimeout(func:Dynamic, milliseconds:Int, rest:Array<Dynamic> = null):Int
+	public static function setTimeout(func:Dynamic, milliseconds:Int, ?rest:Array<Dynamic> = null):Int
 	{
 		var timer:Timer = new Timer(milliseconds);
 		timers.push(timer);

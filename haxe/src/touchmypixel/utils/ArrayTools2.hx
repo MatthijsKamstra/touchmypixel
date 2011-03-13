@@ -6,6 +6,15 @@ package touchmypixel.utils;
 */
 class ArrayTools2 {
 	
+	public static function each<T, U>(a:Array<T>, f:T->U):Array<U>
+	{
+		var b:Array<U> = [];
+		for (i in 0...a.length) {
+			b[i] = f(a[i]);
+		}
+		return b;
+	}
+	
 	public static function randomize<T>(array:Array<T>):Array<T>
 	{
 		var l = array.length-1;
