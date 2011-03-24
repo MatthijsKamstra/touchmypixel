@@ -15,7 +15,7 @@ class SuperTracer
 	{
 		lastTraceTime = Lib.getTimer();
 	}
-	public static function trace(?pos:PosInfos, ?extra:Dynamic)
+	public static function trace(?extra:Dynamic, ?pos:PosInfos)
 	{
 		if (lastTraceTime == -1) lastTraceTime = Lib.getTimer();
 		var o = "";
