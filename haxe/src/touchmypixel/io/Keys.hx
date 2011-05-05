@@ -51,7 +51,7 @@ class Keys
 	
 	public static function forceKeyDown( key:Int )
 	{
-		 keycodes.set(key, true);
+		keycodes.set(key, true);
 	}
 	
 	public static function forceKeyUp( key:Int )

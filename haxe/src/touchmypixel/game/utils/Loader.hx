@@ -14,15 +14,14 @@ import flash.net.URLRequest;
 
 class Loader 
 {
-	public static var loadedBitmaps:Hash<BitmapData> = new Hash();
-	public static var loadedSounds:Hash<Sound> = new Hash();
+	public static var loaded:Hash<Dynamic> = new Hash();
 	
 	public static function loadBitmap(src:String):Bitmap
 	{
 		// already loaded
-		if (loadedBitmaps.exists(src))
+		if (loaded.exists(src))
 		{
-			return new Bitmap(loadedBitmaps.get(src), PixelSnapping.AUTO, true);
+			return new Bitmap(loaded.get(src), PixelSnapping.NEVER, true);
 		}
 		
 		// load bitmap
@@ -35,30 +34,26 @@ class Loader
 		#else
 			var cl = Type.resolveClass(src);
 			if (cl == null)
-				throw "Cannot Attach Bitmap: " + src;
-			bd = Type.createInstance(cl, [50, 50]);
+			{
+				//#if debug
+				//	throw "Cannot Attach Bitmap: " + src;
+				//#else
+					bd = new BitmapData(50, 50);
+				//#end
+			} else {
+				bd = Type.createInstance(cl, [50, 50]);
+			}
 		#end
 		
-		loadedBitmaps.set(src, bd);
+		loaded.set(src, bd);
 		
-		return new Bitmap(loadedBitmaps.get(src), PixelSnapping.AUTO, true);
-	}
-	
-	public static function destroy() : Void
-	{
-		for ( bmp in loadedBitmaps )
-			bmp.dispose();
-		loadedBitmaps = new Hash<BitmapData>();
-		
-		for ( snd in loadedSounds )
-			snd.close();
-		loadedSounds = new Hash<Sound>();
+		return new Bitmap(loaded.get(src), PixelSnapping.NEVER, true);
 	}
 	
 	public static function loadSound(url:String):Sound
 	{
-		if (loadedSounds.exists(url))
-			return cast(loadedSounds.get(url), Sound);
+		if (loaded.exists(url))
+			return cast(loaded.get(url), Sound);
 		
 		var sound:Sound = null;
 		
@@ -73,7 +68,7 @@ class Loader
 			sound = Type.createInstance(cl, [url]);
 		#end
 		
-		loadedSounds.set(url, sound);
+		loaded.set(url, sound);
 		
 		return sound;
 	}

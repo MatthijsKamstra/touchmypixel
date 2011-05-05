@@ -1,10 +1,10 @@
 package touchmypixel.utils;
 
-import flash.Lib;
-import haxe.PosInfos;
+
 
 #if flash
-
+import flash.Lib;
+import haxe.PosInfos;
 import flash.external.ExternalInterface;
 
 class RedirectTrace
@@ -53,5 +53,6 @@ class RedirectTrace
 	public static function toFD() {}
 	public static function toConsole() {}
 	public static function toBoth() { }
+	public static function toNone() {}
 }
 #end

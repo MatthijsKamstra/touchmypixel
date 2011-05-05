@@ -13,6 +13,9 @@ class Object extends Sprite, implements IObjectHashable
 {
 	public var __objectId:Int;
 	
+	var tag:String;
+	var group:String;
+	
 	var isDestroyed : Bool;
 	//public var builderInfo:Fast;
 	

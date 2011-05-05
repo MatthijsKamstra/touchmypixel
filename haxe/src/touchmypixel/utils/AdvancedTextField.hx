@@ -11,6 +11,11 @@ import flash.text.TextField;
 
 class AdvancedTextField
 {
+	public static function splitToColumns(tf:TextField, height:Float, gutter:Float = 0)
+	{
+		
+	}
+	
 	static var tags:Array < String > = ["p", "h1", "h2", "h3", "li"];
 	
 	public static function replace(sourceTextField:TextField, ?paragraphSpacing:Float=10) 

@@ -38,10 +38,10 @@ class NumberTools
 		return e;
 	}
 	
-	public static function formatToDollars(value:Float, includeDecimals:Bool = false, addDollor:Bool = true):Void
+	public static function formatToDollars(value:Float, includeDecimals:Bool = false, addDollor:Bool = true):String
 	{
-		/*var left = Std.string(Math.floor(value));
-		var right = value - left;
+		var left = Std.string(Math.floor(value));
+		var right = value - Std.parseInt(left);
 		var rightCut = Math.round(right * 100) / 100;
 		var leftFormat = "";
 		var leftOut = "";
@@ -57,12 +57,14 @@ class NumberTools
 			leftOut += leftFormat.charAt(leftFormat.length - 1 - i);
 		}
 		if (includeDecimals) {
-			if (addDollor) return("$" + leftFormat + "." + rightCut);
-			return(leftFormat + "." + rightCut);
+			if (addDollor) 
+				return("$" + leftFormat + "." + rightCut);
+			else
+				return(leftFormat + "." + rightCut);
 		} else {
 			if (addDollor) return ("$" + leftOut);
 			return (leftOut);
-		}*/
+		}
 	}
 	
 	public static function zeroNumber(number:Float, ?padToLeft:Int=1, ?padToRight:Int=0, ?padWith:String="0"):String

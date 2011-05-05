@@ -13,9 +13,9 @@ class Tweens
 	
 	public static function addTweens(object:Dynamic, properties:Dynamic, settings:Dynamic):Void
 	{
-		var time = Reflect.field(settings, "time") != null ? Reflect.field(settings, "time") : 1;
+		var time:Float = Reflect.field(settings, "time") != null ? Reflect.field(settings, "time") : 1.;
 		var easing = Reflect.field(settings, "easing") != null ? Reflect.field(settings, "easing") : Cubic.easeOut;
-		var delay:Dynamic =Reflect.field(settings, "delay");
+		var delay:Dynamic = Reflect.field(settings, "delay");
 		
 		var isFirst:Bool = true;
 		var propertyFields = Reflect.fields(properties);
@@ -23,12 +23,12 @@ class Tweens
 		{
 			var init = Reflect.field(object, p);
 			
-			var tween:Tween = new Tween(init, Reflect.field(properties, p), time*1000, object, p, easing);	
+			var tween:Tween = new Tween(init, Reflect.field(properties, p), Std.int(time*1000), object, p, easing);	
 			
 			if(isFirst)
 				tween.setTweenHandlers(Reflect.field(settings, "onUpdate"), Reflect.field(settings, "onEnd"));
 			
-			if (delay == null)
+			if (delay == null || delay == 0)
 				tween.start();
 			else 
 				Tweens.delay(tween, delay);
