@@ -5,7 +5,8 @@
 
 package touchmypixel.particles;
 
-import touchmypixel.particles.effectors.Effector;
+import touchmypixel.game.geom.Vector;
+import touchmypixel.particles.affectors.Affector;
 import flash.display.BitmapData;
 import flash.display.MovieClip;
 import flash.display.Sprite;
@@ -28,11 +29,12 @@ typedef ParticleSprite = nme.TileRenderer;
 class Particle
 {
 	public static var pnum:Int = 0;
-	public var effectors:Array<Effector>;
+	public var affectors:Array<Affector>;
 	public var emitter:Emitter;
 	public var lifespan:Float;
 	public var age:Float;
 	public var isAlive:Bool;
+	public var isActive:Bool;
 	public var mass:Float;
 	
 	public var vx:Float;
@@ -50,9 +52,15 @@ class Particle
 	public function new() 
 	{
 		reset();
-		lifespan = 80;
+		
+		lifespan = 50;
+		
+		age = 0;
 		mass = 1;
 		num = Particle.pnum++;
+		
+		isAlive = false;
+		isActive = true;
 	}
 	
 	/**
@@ -61,22 +69,55 @@ class Particle
 	public function reset():Void
 	{
 		isAlive = false;
+		isActive = false;
 		age = 0;
 		vx = vy = vr = x = y = 0;
-		effectors = new Array();
+		affectors = new Array();
 		emitter = null;
 	}
 	
-	/**
-	 * Add an effector to this particle
-	**/
-	public function addEffector(effector:Effector)
+	public function clampSpeed(min, max)
 	{
-		effectors.push(effector);
+		var v = new Vector(vx, vy);
+		var s = v.getLenth();
+		
+		if (s < min) 
+		{
+			var d = min / s;
+			vx *= d;
+			vy *= d;
+			return;
+		}
+		if (s > max) 
+		{
+			var d = max / s;
+			vx *= d;
+			vy *= d;
+		}
 	}
 	
 	/**
-	 * Apply all of the effectors to the particle
+	 * Add an Affector to this particle
+	**/
+	public function addAffector(affector:Affector):Affector
+	{
+		affectors.push(affector);
+		
+		return affector;
+	}
+	
+	/**
+	 * Add an Affector to this particle
+	**/
+	public function removeAffector(affector:Affector):Affector
+	{
+		affectors.remove(affector);
+		
+		return affector;
+	}
+	
+	/**
+	 * Apply all of the Affectors to the particle
 	**/
 	public inline function update(dt:Float) 
 	{
@@ -84,10 +125,11 @@ class Particle
 		y += vy * dt;
 		age += dt;
 		
-		for (effector in effectors) 
-			effector.apply(this, dt);
+		for (affector in affectors) 
+			affector.apply(this, dt);
 		
-		if (age > lifespan) isAlive = false;
+		if (age > lifespan) 
+			isAlive = false;
 	}
 
 	public static function createSprite(data:BitmapData) : ParticleSprite

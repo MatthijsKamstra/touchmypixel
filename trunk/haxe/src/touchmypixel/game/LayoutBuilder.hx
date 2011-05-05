@@ -159,18 +159,20 @@ class LayoutBuilder
 	
 	private function createBody(bodyInfo:Fast, ?gameObject:BuilderGameObject)
 	{ 
-		var clazzName = bodyInfo.att.resolve("definition");
 		var body : BuilderBodyObject = null;
-		if ( clazzName != "" )
-		{
+		
+		try {
+			
+			var clazzName = bodyInfo.att.resolve("definition");
+			
 			var clazz = Type.resolveClass(clazzName);
 			
 			if (clazz == null)
 				throw "Body Class: " + clazzName + " cannot be built, as it doesnt exist";
 				
 			body = Type.createInstance(clazz, [simulation]);
-		}
-		else
+		
+		}catch(e:Dynamic)
 		{
 			body = new BuilderBodyObject(simulation);
 		}

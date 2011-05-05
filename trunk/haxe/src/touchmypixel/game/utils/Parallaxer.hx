@@ -22,6 +22,8 @@ class Parallaxer
 	
 	public var smoothing:Float;
 	
+	public var currentWindowRect:Rectangle;
+	
 	public function new(scope:Sprite, window:Rectangle) 
 	{
 		this.scope = scope;
@@ -35,7 +37,10 @@ class Parallaxer
 		focusOffset = new Point(); 
 		
 		smoothing = 10;
-		bounds = new Rectangle(0, 0, 400, 300);
+		bounds = new Rectangle(window.x, window.y, window.width, window.height);
+		
+		currentWindowRect = bounds.clone();
+		
 	}
 	
 	public function init()
@@ -70,8 +75,7 @@ class Parallaxer
 	
 	public function addControlLayer(item:DisplayObject, dimensions:Rectangle = null, offset:Point = null, canZoom:Bool = false):ParallaxLayer
 	{
-		controlLayer = addLayer(item, dimensions, offset, true, canZoom);
-		return controlLayer;
+		return controlLayer = addLayer(item, dimensions, offset, true, canZoom);
 	}
 	
 	public function getConrolLayer():ParallaxLayer
@@ -99,6 +103,7 @@ class Parallaxer
 			}
 		}*/
 		
+		
 		// Set controlLayer's Target Position
 		controlLayer.tx = (window.width / 2 - focus.x + focusOffset.x);
 		controlLayer.ty = (window.height / 2 - focus.y + focusOffset.y);
@@ -109,6 +114,8 @@ class Parallaxer
 			if (controlLayer.tx + bounds.right < window.right) controlLayer.tx = -bounds.right + window.right;
 			if (controlLayer.ty + bounds.top > window.top) controlLayer.ty = -bounds.top + window.top;
 			if (controlLayer.ty + bounds.bottom < window.bottom) controlLayer.ty = -bounds.bottom + window.bottom;
+
+			
 		} else {
 			if (controlLayer.tx + controlLayer.dimensions.left > window.left) controlLayer.tx = -controlLayer.dimensions.left + window.left;
 			if (controlLayer.tx + controlLayer.dimensions.right < window.right) controlLayer.tx = -controlLayer.dimensions.right + window.right;
@@ -116,16 +123,18 @@ class Parallaxer
 			if (controlLayer.ty + controlLayer.dimensions.bottom < window.bottom) controlLayer.ty = -controlLayer.dimensions.bottom + window.bottom;
 		}
 		
+		
+		
 		var npx:Float = Math.abs((controlLayer.tx - window.left) / (controlLayer.dimensions.width - window.width));
 		var npy:Float = Math.abs((controlLayer.ty - window.top) / (controlLayer.dimensions.height - window.height));
-			
+		
 		var smooth = instant ? 1 : smoothing;
 		
 		for(layer in layers)
 		{	
 			if(layer != controlLayer)
 				updateLayerTarget(layer, npx, npy);
-				
+			
 			// Set All layer positions
 			layer.mc.x += (layer.tx - layer.mc.x) / smooth;
 			layer.mc.y += (layer.ty - layer.mc.y) / smooth;
@@ -133,6 +142,9 @@ class Parallaxer
 			//layer.mc.x = roundToNearest(1.0, layer.mc.x);
 			//layer.mc.y = roundToNearest(1.0, layer.mc.y);
 		}		
+		
+		currentWindowRect.x = -controlLayer.mc.x;
+		currentWindowRect.y = -controlLayer.mc.y;
 	}
 	
 	inline function roundToNearest( roundTo : Float, value : Float ) : Float
@@ -140,10 +152,10 @@ class Parallaxer
 		return Math.round( value / roundTo ) * roundTo;
 	}
 	
-	private function updateLayerTarget(layer:ParallaxLayer, tx:Float, ty:Float)
+	inline function updateLayerTarget(layer:ParallaxLayer, px:Float, py:Float)
 	{
-		layer.tx = (-tx * (layer.dimensions.width-window.width) + window.left)- layer.dimensions.left + layer.offset.x;
-		layer.ty = (-ty * (layer.dimensions.height-window.height) + window.left) - layer.dimensions.top + layer.offset.y;
+		layer.tx = (-px * (layer.dimensions.width-window.width) + window.left)- layer.dimensions.left + layer.offset.x;
+		layer.ty = (-py * (layer.dimensions.height-window.height) + window.top) - layer.dimensions.top + layer.offset.y;
 	}
 	
 } 

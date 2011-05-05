@@ -38,13 +38,17 @@ class Tools
 	}*/
 	#end
 	
+	public static inline function normalizeAngle(d:Float):Float
+	{
+		if (d > 360) d -= 360;
+		if (d < 0) d += 360;
+		return d;
+	}
 	public static inline function getAngle(dx:Float, dy:Float):Float
 	{
 		var r = Math.atan2(dy, dx);
 		var d = r * 180 / Math.PI - 90;
-		if (d > 360) d -= 360;
-		if (d < 0) d += 360;
-		return d;
+		return normalizeAngle(d);
 	}
 	
 	

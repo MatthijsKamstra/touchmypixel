@@ -25,6 +25,7 @@ class Box2dSimulation extends Sprite
 	
 	public var scale:Float;
 	public var iterations:Int;
+	public var timeStep:Null<Float>;
 	
 	public var initAABB:B2AABB;
 	public var initGravity:B2Vec2;
@@ -74,6 +75,8 @@ class Box2dSimulation extends Sprite
 		bitmaps = [];
 		
 		mousePos = new B2Vec2();
+		
+		timeStep = 1 / 50;
 	}
 	
 	public function init()
@@ -90,6 +93,7 @@ class Box2dSimulation extends Sprite
 		dbgDraw.m_xformScale = 1;
 		dbgDraw.m_drawScale = scale;
 		dbgDraw.m_drawFlags = B2DebugDraw.e_shapeBit | B2DebugDraw.e_jointBit  | B2DebugDraw.e_centerOfMassBit;
+		
 		if (debug)
 			world.SetDebugDraw(dbgDraw);
 	}
@@ -107,9 +111,9 @@ class Box2dSimulation extends Sprite
 	{
 		if (running) 
 		{	
-			//contactManager.clear();
+			contactManager.clear();
 		
-			world.Step(1/50, iterations);
+			world.Step(timeStep != null ? timeStep : dt, iterations);
 			
 			if(autoUpdateObjects)
 				for (o in objects)

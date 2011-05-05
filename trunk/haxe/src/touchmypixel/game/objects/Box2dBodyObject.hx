@@ -4,7 +4,9 @@
  */
 
 package touchmypixel.game.objects;
+import box2D.collision.shapes.B2ShapeDef;
 import box2D.dynamics.B2Body;
+import box2D.dynamics.B2BodyDef;
 import haxe.xml.Fast;
 import touchmypixel.game.ds.ObjectHash;
 import touchmypixel.game.objects.Box2dObject;
@@ -32,6 +34,8 @@ class Box2dBodyObject extends Object
 		
 		simulation = s;
 		
+		createBody(new B2BodyDef());
+		
 		cacheContacts = false;
 		
 		contacts_add = new ObjectHash();
@@ -43,6 +47,22 @@ class Box2dBodyObject extends Object
 	{
 		if(body != null)
 			simulation.sync(this, body);
+	}
+	
+	public function createBody(bodyDef:B2BodyDef)
+	{
+		body = simulation.world.CreateBody(bodyDef);
+		body.SetUserData(this);
+	}
+	
+	public function createShape(def:B2ShapeDef)
+	{
+		if (body == null)
+			createBody(new B2BodyDef());
+			 
+		body.CreateShape(def);
+			
+		body.SetMassFromShapes();
 	}
 	
 	override public function destroy()

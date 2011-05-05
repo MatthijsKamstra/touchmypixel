@@ -37,7 +37,7 @@ class Item
 	
 	public var remainingTries:Int;
 	public var preventCache:Bool;
-	public var variables:URLVariables;
+	#if !js public var variables:URLVariables; #end
 	public var loaderContext:LoaderContext;
 	
 	
@@ -56,8 +56,10 @@ class Item
 		preventCache = options.preventCache != null ? options.preventCache : false;
 		loaderContext = options.loaderContext != null ? options.loaderContext : null;
 
+		#if !js
 		if (variables == null)
 			variables = new URLVariables();
+		#end
 	}
 	
 	public function start()
@@ -129,10 +131,12 @@ class LoaderItem extends Item
 	{
 		super.start();
 		
+		#if !js
 		if (preventCache)
 			variables.preventCache = ""+Math.floor(Math.random() * 10000000000);
 		if(variables.toString().length > 1)
 			urlRequest.data = variables;
+		#end
 		
 		loader.load(urlRequest, loaderContext);
 	}
@@ -165,10 +169,13 @@ class URLLoaderItem extends Item
 	{
 		super.start();
 		
+		#if !js
 		if (preventCache)
 			variables.preventCache = ""+Math.floor(Math.random() * 10000000000);
 		if(variables.toString().length > 1)
 			urlRequest.data = variables;
+		#end
+		
 		if (type == ItemType.BINARY)
 			loader.dataFormat = URLLoaderDataFormat.BINARY;
 			

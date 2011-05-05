@@ -62,7 +62,7 @@ class ContactManager extends B2ContactListener
 			
 		/***/
 		
-		if(o1.cacheContacts)
+		if(o1 != null && o1.cacheContacts)
 		{	
 			h = Reflect.field(o1, "contacts_" + type);
 			if (!h.exists(o2))
@@ -74,7 +74,7 @@ class ContactManager extends B2ContactListener
 		}
 		/***/
 		
-		if(o2.cacheContacts)
+		if(o2 != null && o2.cacheContacts)
 		{
 			h = Reflect.field(o2, "contacts_" + type);
 			if (!h.exists(o1))

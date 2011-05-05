@@ -74,7 +74,7 @@ class Generator
 		var item = items.getRandom();
 		
 		try {
-			
+			trace(Type.resolveClass(item));
 			var instance = Type.createInstance(Type.resolveClass(item), args);
 			onGenerateItem.dispatch(instance);
 		} catch (e:Dynamic)

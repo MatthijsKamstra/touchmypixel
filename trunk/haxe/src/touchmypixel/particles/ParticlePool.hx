@@ -4,30 +4,32 @@
  */
 
 package touchmypixel.particles;
+import haxe.FastList;
 
 class ParticlePool
 {
 	public static var instance:ParticlePool;
 	
-	public var pool:Array<Particle>;
+	public var pool:FastList<Particle>;
 	public var next:Int;
 	public var length:Int;
+	public var i:Iterator<Particle>;
 	
 	public function new(amount) 
 	{
-		instance = this;
-		
 		length = amount;
 		next = 0;
 		
-		pool = [];
+		pool = new FastList<Particle>();
 		for (i in 0...amount)
-			pool.push(new Particle());
+			pool.add(new Particle());
+			
+		//i = pool.iterator();
 	}
 	
 	public static function init(amount:Int)
 	{
-		return new ParticlePool(amount);
+		return instance = new ParticlePool(amount);
 	}
 	
 	/**
@@ -35,11 +37,18 @@ class ParticlePool
 	**/
 	public inline function getParticle()
 	{
-		next++;
+		if (i == null || !i.hasNext())
+			i = pool.iterator();
+			
+		return i.next();
+		
+		/*next++;
 		if (next >= length) next = 0;
 		
 		return pool[next];
+		*/
 		
+		//next = pool.
 	}
 	
 }

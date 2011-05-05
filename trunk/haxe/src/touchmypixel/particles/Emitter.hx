@@ -17,10 +17,11 @@ class Emitter
 	public var amount:Float;
 	public var x:Float;
 	public var y:Float;
+	public var pool:ParticlePool;
 	
 	var num:Float;
 	
-	public function new(type:Class<Particle>) 
+	public function new(type:Class<Particle>, ?pool:ParticlePool) 
 	{
 		var ths = this;
 		emitType = type;
@@ -28,6 +29,8 @@ class Emitter
 		//particles = new FastList<Particle>();
 		x = y = 0;
 		num = 0;
+		
+		this.pool = pool != null ? pool : ParticlePool.instance;
 	}
 	
 	
@@ -41,11 +44,12 @@ class Emitter
 		{
 			for (i in 0...Math.floor(num))
 			{
-				var p:Particle = ParticlePool.instance.getParticle();
+				var p:Particle = pool.getParticle();
 				//var p:Particle = Pool.get(emitType, []);
 				//var p = Type.createInstance(emitType, []);
 				p.reset();
 				p.isAlive = true;
+				p.isActive = true;
 				p.emitter = this;
 				p.x = x;
 				p.y = y;
