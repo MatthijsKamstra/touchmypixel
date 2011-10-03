@@ -20,7 +20,7 @@ class Gravity implements Effector
 	public function apply(p:Particle, dt:Float):Void
 	{
 		p.vx += amountX*dt;
-		p.vy += amountY*dt;
+		p.vy += amountY * dt;
 	}
 	
 }

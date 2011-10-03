@@ -52,6 +52,8 @@ class Main extends Sprite
 		loader.onComplete.add(complete);
 		loader.onError.add(error);
 		
+		loader.onComplete.
+		
 		loader.start();
 		
 		

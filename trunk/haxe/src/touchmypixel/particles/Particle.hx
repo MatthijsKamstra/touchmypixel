@@ -6,7 +6,7 @@
 package touchmypixel.particles;
 
 import touchmypixel.game.geom.Vector;
-import touchmypixel.particles.affectors.Affector;
+import touchmypixel.particles.effectors.Effector;
 import flash.display.BitmapData;
 import flash.display.MovieClip;
 import flash.display.Sprite;
@@ -29,7 +29,7 @@ typedef ParticleSprite = nme.TileRenderer;
 class Particle
 {
 	public static var pnum:Int = 0;
-	public var affectors:Array<Affector>;
+	public var effectors:Array<Effector>;
 	public var emitter:Emitter;
 	public var lifespan:Float;
 	public var age:Float;
@@ -72,7 +72,7 @@ class Particle
 		isActive = false;
 		age = 0;
 		vx = vy = vr = x = y = 0;
-		affectors = new Array();
+		effectors = new Array();
 		emitter = null;
 	}
 	
@@ -97,27 +97,27 @@ class Particle
 	}
 	
 	/**
-	 * Add an Affector to this particle
+	 * Add an effector to this particle
 	**/
-	public function addAffector(affector:Affector):Affector
+	public function addeffector(effector:Effector):Effector
 	{
-		affectors.push(affector);
+		effectors.push(effector);
 		
-		return affector;
+		return effector;
 	}
 	
 	/**
-	 * Add an Affector to this particle
+	 * Add an effector to this particle
 	**/
-	public function removeAffector(affector:Affector):Affector
+	public function removeeffector(effector:Effector):Effector
 	{
-		affectors.remove(affector);
+		effectors.remove(effector);
 		
-		return affector;
+		return effector;
 	}
 	
 	/**
-	 * Apply all of the Affectors to the particle
+	 * Apply all of the effectors to the particle
 	**/
 	public inline function update(dt:Float) 
 	{
@@ -125,8 +125,8 @@ class Particle
 		y += vy * dt;
 		age += dt;
 		
-		for (affector in affectors) 
-			affector.apply(this, dt);
+		for (effector in effectors) 
+			effector.apply(this, dt);
 		
 		if (age > lifespan) 
 			isAlive = false;

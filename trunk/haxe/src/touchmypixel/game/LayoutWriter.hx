@@ -51,6 +51,8 @@ class LayoutWriter
 	
 	public function new2()
 	{
+		Fl.fileExists(
+		
 		doc = Fl.getDocumentDOM();
 		lib = doc.library;
 		root = doc.timelines[0];
@@ -220,6 +222,7 @@ class LayoutWriter
 		var xml = "";
 		for (child in scope.getTimeline().getChildren())
 		{
+			scope.getTimeline().
 			if (child.isShape())
 			{
 				var s:Shape = cast child;

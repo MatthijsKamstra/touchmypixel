@@ -31,7 +31,12 @@ class Flash extends Sprite
 	
 	Comment / uncomment the examples to view each example
 	
+	
 	*/
+	
+	public var onClick:Signal1<Int>;
+	
+	
 	public function new()
 	{
 		super();
@@ -40,7 +45,16 @@ class Flash extends Sprite
 
 		//testAS3();
 		testAS3Shortcuts();
-
+		
+		
+		onClick = new Signal1();
+		onClick.add(clicker);
+		onClick.dispatch(
+	}
+	
+	function clicker(i)
+	{
+		trace("X");
 	}
 	
 	/*
@@ -94,6 +108,8 @@ class Flash extends Sprite
 		box.onReleaseOutside().add(function(e) {
 			trace("** onReleaseOutside ** (HELL YEAH!)");
 		});
+		
+		box.onReleaseOutside(
 	}
 	
 }
